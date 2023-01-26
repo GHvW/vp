@@ -7,6 +7,10 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "VP", "src\VP\VP.fsproj", "{
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Spin", "..\spin\src\Spin\Spin.fsproj", "{729219BA-9D8C-4B61-B17E-B7D2BDA227F2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FCCF61F4-F72A-4E48-81EA-88D0E1023E3B}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "VP.Test", "test\VP.Test\VP.Test.fsproj", "{AE0CBB4A-3435-49DB-9383-4C809077B13B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,11 +25,18 @@ Global
 		{729219BA-9D8C-4B61-B17E-B7D2BDA227F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{729219BA-9D8C-4B61-B17E-B7D2BDA227F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{729219BA-9D8C-4B61-B17E-B7D2BDA227F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE0CBB4A-3435-49DB-9383-4C809077B13B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE0CBB4A-3435-49DB-9383-4C809077B13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE0CBB4A-3435-49DB-9383-4C809077B13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE0CBB4A-3435-49DB-9383-4C809077B13B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B8E020D2-CF2F-4D8D-B441-1ECE64D6733E}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AE0CBB4A-3435-49DB-9383-4C809077B13B} = {FCCF61F4-F72A-4E48-81EA-88D0E1023E3B}
 	EndGlobalSection
 EndGlobal

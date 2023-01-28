@@ -25,7 +25,7 @@ module ``Given a Bible verse`` =
 
     module ``And the book isn't numbered`` =
         let verse = "Hebrews 11:1"
-        
+
         [<Fact>]
         let ``When parsing the book`` () =
             let struct (VerseParser.Book (result), rest) =
@@ -36,5 +36,21 @@ module ``Given a Bible verse`` =
             result |> should equal "Hebrews"
             (String.Concat rest) |> should equal " 11:1"
 
-// [<Fact>]
-// let ``And the book does not start with a number`` () =
+    module ``And the verse includes a range of lines`` =
+
+        let it = "1 Corinthians 10:11-13"
+
+        [<Fact>]
+        let ``When parsing the full verse`` () =
+            let struct (result, rest) =
+                VerseParser.verse it
+                |> Result.toOption
+                |> Option.get
+
+            result.Book |> should equal "1 Corinthians"
+            result.Chapter |> should equal 10
+
+            match result.Lines with
+            | VerseParser.Range lines ->
+                lines.From |> should equal "11"
+                lines.Through |> should equal "13"

@@ -14,7 +14,7 @@ let lineCount range =
 
 type LineSelection =
     | Single of int
-    | Range of {| From: int; Through: int |}
+    | Range of LineRange
 
 
 type Verse = 
@@ -45,18 +45,18 @@ let book : Parser<Book> =
 
 let lines : Parser<LineSelection> =
     parser {
-        let! from = (token natural) |> map Convert.ToInt32
+        let! from = token natural
         let! _ = token (character '-')
-        let! through = natural |> map Convert.ToInt32
+        let! through = natural
 
-        return Range {| From = from; Through = through |}
-    } |> orElse (natural |> map (Convert.ToInt32 >> Single))
+        return Range { From = from; Through = through }
+    } |> orElse (natural |> map Single)
 
 
 let verse : Parser<Verse> =
     parser {
         let! book = token book
-        let! chapter = (token natural) |> map Convert.ToInt32
+        let! chapter = token natural
         let! _ = token (character ':')
         let! lines = lines
         return { Book = book; Chapter = chapter; Lines = lines }

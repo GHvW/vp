@@ -49,8 +49,29 @@ module ``Given a Bible verse`` =
 
             result.Book |> should equal (VerseParser.Book "1 Corinthians")
             result.Chapter |> should equal 10
+            (Seq.isEmpty rest) |> should be True
 
             let (VerseParser.Range lines) = result.Lines
 
             lines.From |> should equal 1 
             lines.Through |> should equal 13
+
+    module ``And the verse has extra spacing between parts`` =
+        let verse = "1  Corinthians   10 : 1 - 13"
+        
+        [<Fact>]
+        let ``When parsing the full verse`` () =
+            let struct (result, rest) =
+                VerseParser.verse verse
+                |> Result.toOption
+                |> Option.get
+
+            result.Book |> should equal (VerseParser.Book "1 Corinthians")
+            result.Chapter |> should equal 10
+            (Seq.isEmpty rest) |> should be True
+
+            let (VerseParser.Range lines) = result.Lines
+
+            lines.From |> should equal 1 
+            lines.Through |> should equal 13
+

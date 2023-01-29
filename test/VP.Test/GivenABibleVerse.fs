@@ -38,7 +38,7 @@ module ``Given a Bible verse`` =
 
     module ``And the verse includes a range of lines`` =
 
-        let it = "1 Corinthians 10:11-13"
+        let it = "1 Corinthians 10:1-13"
 
         [<Fact>]
         let ``When parsing the full verse`` () =
@@ -47,10 +47,10 @@ module ``Given a Bible verse`` =
                 |> Result.toOption
                 |> Option.get
 
-            result.Book |> should equal "1 Corinthians"
+            result.Book |> should equal (VerseParser.Book "1 Corinthians")
             result.Chapter |> should equal 10
 
-            match result.Lines with
-            | VerseParser.Range lines ->
-                lines.From |> should equal "11"
-                lines.Through |> should equal "13"
+            let (VerseParser.Range lines) = result.Lines
+
+            lines.From |> should equal 1 
+            lines.Through |> should equal 13

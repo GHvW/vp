@@ -45,18 +45,18 @@ let book : Parser<Book> =
 
 let lines : Parser<LineSelection> =
     parser {
-        let! from = (token numeric) |> map Convert.ToInt32
+        let! from = (token natural) |> map Convert.ToInt32
         let! _ = token (character '-')
-        let! through = numeric |> map Convert.ToInt32
+        let! through = natural |> map Convert.ToInt32
 
         return Range {| From = from; Through = through |}
-    } |> orElse (numeric |> map (Convert.ToInt32 >> Single))
+    } |> orElse (natural |> map (Convert.ToInt32 >> Single))
 
 
 let verse : Parser<Verse> =
     parser {
         let! book = token book
-        let! chapter = (token numeric) |> map Convert.ToInt32
+        let! chapter = (token natural) |> map Convert.ToInt32
         let! _ = token (character ':')
         let! lines = lines
         return { Book = book; Chapter = chapter; Lines = lines }

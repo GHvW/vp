@@ -1,26 +1,9 @@
 module VP.VerseParser
 
 open System
-open System.Text
 open Spin.Parser
-open Spin
+open Verse
 
-type Book = Book of string
-
-type LineRange = { From: int; Through: int }
-
-let lineCount range =
-    range.Through - range.From
-
-type LineSelection =
-    | Single of int
-    | Range of LineRange
-
-
-type Verse = 
-    { Book: Book
-      Chapter: int
-      Lines: LineSelection}
 
 let regBook : Parser<Book> =
     fun input -> 

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Verse.fs" />
     <Compile Include="VerseParser.fs" />
   </ItemGroup>
 

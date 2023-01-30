@@ -15,7 +15,7 @@ module ``Given a Bible verse`` =
 
         [<Fact>]
         let ``When parsing the book`` () =
-            let struct (VerseParser.Book (result), rest) =
+            let struct (Verse.Book (result), rest) =
                 VerseParser.book verse
                 |> Result.toOption
                 |> Option.get
@@ -28,7 +28,7 @@ module ``Given a Bible verse`` =
 
         [<Fact>]
         let ``When parsing the book`` () =
-            let struct (VerseParser.Book (result), rest) =
+            let struct (Verse.Book (result), rest) =
                 VerseParser.book verse
                 |> Result.toOption
                 |> Option.get
@@ -47,11 +47,11 @@ module ``Given a Bible verse`` =
                 |> Result.toOption
                 |> Option.get
 
-            result.Book |> should equal (VerseParser.Book "1 Corinthians")
+            result.Book |> should equal (Verse.Book "1 Corinthians")
             result.Chapter |> should equal 10
             (Seq.isEmpty rest) |> should be True
 
-            let (VerseParser.Range lines) = result.Lines
+            let lines = result.Lines
 
             lines.From |> should equal 1 
             lines.Through |> should equal 13
@@ -66,11 +66,11 @@ module ``Given a Bible verse`` =
                 |> Result.toOption
                 |> Option.get
 
-            result.Book |> should equal (VerseParser.Book "1 Corinthians")
+            result.Book |> should equal (Verse.Book "1 Corinthians")
             result.Chapter |> should equal 10
             (Seq.isEmpty rest) |> should be True
 
-            let (VerseParser.Range lines) = result.Lines
+            let lines = result.Lines
 
             lines.From |> should equal 1 
             lines.Through |> should equal 13

@@ -26,14 +26,14 @@ let book : Parser<Book> =
         (numberedBook |> orElse regBook) input
 
 
-let lines : Parser<LineSelection> =
+let lines : Parser<LineRange> =
     parser {
         let! from = token natural
         let! _ = token (character '-')
         let! through = natural
 
-        return Range { From = from; Through = through }
-    } |> orElse (natural |> map Single)
+        return { From = from; Through = through }
+    } |> orElse (natural |> map (fun it -> { From = it; Through = it }))
 
 
 let verse : Parser<Verse> =

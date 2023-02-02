@@ -44,3 +44,8 @@ let verse : Parser<Verse> =
         let! lines = lines
         return { Book = book; Chapter = chapter; Lines = lines }
     }
+
+let parse (input: string) : Verse =
+    match verse input with
+    | Ok struct (verse, _) -> verse
+    | Error e -> raise (Exception(e.Message))

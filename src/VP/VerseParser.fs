@@ -6,24 +6,23 @@ open Verse
 
 
 let regBook : Parser<Book> =
-    fun input -> 
-        (atLeast1 letter 
-        |> map (String.Concat >> Book)) input
+    atLeast1 letter 
+    |> map (String.Concat >> Book)
 
 
-let private oneOrTwo = character '1' |> orElse (character '2')
+let private oneOrTwo = 
+    character '1' 
+    |> orElse (character '2')
 
 
 let numberedBook : Parser<Book> =
-    fun input ->
-        (succeed (fun num name -> Book $"{num} {name}")
-        |> apply (token oneOrTwo)
-        |> apply (word |> map String.Concat)) input
+    token oneOrTwo
+    |> map (fun num name -> Book $"{num} {name}")
+    |> apply (word |> map String.Concat)
 
 
 let book : Parser<Book> =
-    fun input ->
-        (numberedBook |> orElse regBook) input
+    numberedBook |> orElse regBook 
 
 
 let lines : Parser<LineRange> =

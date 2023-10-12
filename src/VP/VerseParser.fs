@@ -1,6 +1,7 @@
 module VP.VerseParser
 
 open System
+open Spin
 open Spin.Parser
 open Verse
 
@@ -11,7 +12,7 @@ let regBook : Parser<Book> =
 
 
 let private oneOrTwo = 
-    character '1' 
+    attempt (character '1')
     |> orElse (character '2')
 
 
@@ -22,17 +23,17 @@ let numberedBook : Parser<Book> =
 
 
 let book : Parser<Book> =
-    numberedBook |> orElse regBook 
+    (attempt numberedBook) |> orElse regBook 
 
 
 let lines : Parser<LineRange> =
-    parser {
+    attempt (parser {
         let! from = token natural
         let! _ = token (character '-')
         let! through = natural
 
         return { From = from; Through = through }
-    } |> orElse (natural |> map (fun it -> { From = it; Through = it }))
+    }) |> orElse (natural |> map (fun it -> { From = it; Through = it }))
 
 
 let verse : Parser<Verse> =
@@ -45,6 +46,6 @@ let verse : Parser<Verse> =
     }
 
 let parse (input: string) : Verse =
-    match verse input with
-    | Ok struct (verse, _) -> verse
-    | Error e -> raise (Exception(e.Message))
+    match verse (Location.init input) with
+    | Ok it -> it.Item 
+    | Error e -> raise (Exception(e.Stack |> List.map (snd) |> String.concat " | "))

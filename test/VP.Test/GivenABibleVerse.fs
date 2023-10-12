@@ -5,72 +5,73 @@ open System
 open Xunit
 open FsUnit.Xunit
 
+open Spin
 open VP
 
 module ``Given a Bible verse`` =
 
     module ``And the book starts with a number`` =
 
-        let verse = "1 Corinthians 10:13"
+        let verse = Location.init "1 Corinthians 10:13"
 
         [<Fact>]
         let ``When parsing the book`` () =
-            let struct (Verse.Book (result), rest) =
+            let it =
                 VerseParser.book verse
                 |> Result.toOption
                 |> Option.get
 
-            result |> should equal "1 Corinthians"
-            (String.Concat rest) |> should equal " 10:13"
+            it.Item |> should equal (Verse.Book "1 Corinthians")
+            it.CharsConsumed |> should equal 13
 
     module ``And the book isn't numbered`` =
-        let verse = "Hebrews 11:1"
+        let verse = Location.init "Hebrews 11:1"
 
         [<Fact>]
         let ``When parsing the book`` () =
-            let struct (Verse.Book (result), rest) =
+            let it =
                 VerseParser.book verse
                 |> Result.toOption
                 |> Option.get
 
-            result |> should equal "Hebrews"
-            (String.Concat rest) |> should equal " 11:1"
+            it.Item |> should equal (Verse.Book "Hebrews")
+            it.CharsConsumed |> should equal 7
 
     module ``And the verse includes a range of lines`` =
 
-        let it = "1 Corinthians 10:1-13"
+        let verse = Location.init "1 Corinthians 10:1-13"
 
         [<Fact>]
         let ``When parsing the full verse`` () =
-            let struct (result, rest) =
-                VerseParser.verse it
+            let it =
+                VerseParser.verse verse
                 |> Result.toOption
                 |> Option.get
 
-            result.Book |> should equal (Verse.Book "1 Corinthians")
-            result.Chapter |> should equal 10
-            (Seq.isEmpty rest) |> should be True
+            it.Item.Book |> should equal (Verse.Book "1 Corinthians")
+            it.Item.Chapter |> should equal 10
+            it.CharsConsumed |> should equal (verse.Input.Length)
 
-            let lines = result.Lines
+            let lines = it.Item.Lines
 
             lines.From |> should equal 1 
             lines.Through |> should equal 13
 
     module ``And the verse has extra spacing between parts`` =
-        let verse = "1  Corinthians   10 : 1 - 13"
+        let verse =  Location.init "1  Corinthians   10 : 1 - 13"
         
         [<Fact>]
         let ``When parsing the full verse`` () =
-            let struct (result, rest) =
+            let it =
                 VerseParser.verse verse
                 |> Result.toOption
                 |> Option.get
 
-            result.Book |> should equal (Verse.Book "1 Corinthians")
-            result.Chapter |> should equal 10
-            (Seq.isEmpty rest) |> should be True
+            it.Item.Book |> should equal (Verse.Book "1 Corinthians")
+            it.Item.Chapter |> should equal 10
+            it.CharsConsumed |> should equal (verse.Input.Length)
 
-            let lines = result.Lines
+            let lines = it.Item.Lines
 
             lines.From |> should equal 1 
             lines.Through |> should equal 13

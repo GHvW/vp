@@ -16,10 +16,12 @@ module ``Given a Bible verse`` =
 
         [<Fact>]
         let ``When parsing the book`` () =
-            let it =
+            let result =
                 VerseParser.book verse
-                |> Result.toOption
-                |> Option.get
+
+
+            let it = result |> Result.toOption |> Option.get
+
 
             it.Item |> should equal (Verse.Book "1 Corinthians")
             it.CharsConsumed |> should equal 13
@@ -43,8 +45,11 @@ module ``Given a Bible verse`` =
 
         [<Fact>]
         let ``When parsing the full verse`` () =
-            let it =
+            let result =
                 VerseParser.verse verse
+
+            let it =
+                result
                 |> Result.toOption
                 |> Option.get
 
@@ -62,8 +67,11 @@ module ``Given a Bible verse`` =
         
         [<Fact>]
         let ``When parsing the full verse`` () =
-            let it =
+            let result =
                 VerseParser.verse verse
+
+            let it =
+                result
                 |> Result.toOption
                 |> Option.get
 
